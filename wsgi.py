@@ -1,4 +1,4 @@
-from application import generate_app
+from app import generate_app
 
 app = generate_app()
 
