@@ -17,6 +17,4 @@ def generate_app():
         from . import routes
 
         # register blueprints
-        
-
         return app
