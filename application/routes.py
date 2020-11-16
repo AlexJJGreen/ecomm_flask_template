@@ -1,5 +1,5 @@
 from flask import current_app as app
-from flask import render_template
+from flask import render_template, redirect, url_for
 from application.forms import LoginForm
 
 @app.route("/")

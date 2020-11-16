@@ -2,19 +2,23 @@
 
 {% block content %}
 <h1>Sign In</h1>
-<div class="form-group">
     <form action="" method="post" novalidate>
+        <div class="form-group">
         {{ form.hidden_tag() }}
-        <p>
-            {{ form.username.label }}<br>
-            {{ form.username(size=32) }}
-        </p>
-        <p>
-            {{ form.password.label }}<br>
-            {{ form.password(size=32) }}
-        </p>
-        <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
-        <p>{{ form.submit() }}</p>
+            <p>
+                {{ form.username.label }}<br>
+                {{ form.username(class_="form-control") }}
+            </p>
+        </div>
+        <div class="form-group">
+            <p>
+                {{ form.password.label }}<br>
+                {{ form.password(class_="form-control") }}
+            </p>
+        </div>
+        <div class="form-group">
+            <p>{{ form.remember_me(class_="form-check-input") }} {{ form.remember_me.label(class_="form-check-label") }}</p>
+            <p>{{ form.submit() }}</p>
+        </div>
     </form>
-</div>
 {% endblock %}
