@@ -19,3 +19,5 @@ class Product(db.Model):
     secondary_image_loc = db.Column(db.String(128), index=True)
     tertiary_image_loc = db.Column(db.String(128), index=True)
     ean = db.Column(db.Integer)
+    price = db.Column(db.Integer)
+    currency = db.Column(db.String(8), index=True)

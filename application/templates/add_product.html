@@ -1,0 +1,51 @@
+{% extends "admin.html" %}
+
+{% block content %}
+<h1>Sign In</h1>
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+            <p>
+                {{ form.name.label }}<br>
+                {{ form.name }}
+            </p>
+            <p>
+                {{ form.tags.label }}<br>
+                {{ form.tags }}
+            </p>
+            <p>
+                {{ form.description.label }}<br>
+                {{ form.description }}
+            </p>
+            <p>
+                {{ form.colour.label }}<br>
+                {{ form.colour }}
+            </p>
+            <p>
+                {{ form.primary_image.label }}<br>
+                {{ form.primary_image }}
+            </p>
+            <p>
+                {{ form.secondary_image.label }}<br>
+                {{ form.secondary_image }}
+            </p>
+            <p>
+                {{ form.tertiary_image.label }}<br>
+                {{ form.tertiary_image }}
+            </p>
+            <p>
+                {{ form.ean.label }}<br>
+                {{ form.ean }}
+            </p>
+            <p>
+                {{ form.price.label }}<br>
+                {{ form.price }}
+            </p>
+            <p>
+                {{ form.currency.label }}<br>
+                {{ form.currency }}
+            </p>
+            <p>
+                {{ form.submit() }}
+            </p>
+    </form>
+{% endblock %}
