@@ -23,4 +23,5 @@ def login(methods=["GET", "POST"]):
 @app.route("/add_product")
 def add_product(methods=["GET", "POST"]):
     form = AddProductForm()
-    return render_template("add_product.html", form=form)
+    title = "Add Product"
+    return render_template("add_product.html", form=form, title=title)
