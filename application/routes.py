@@ -18,6 +18,7 @@ def products():
     title = "Products"
     return render_template("products.html", title=title)
 
+##admin routes
 
 @app.route("/login")
 def login(methods=["GET", "POST"]):
