@@ -3,7 +3,9 @@ from config import Config
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_uploads import UploadSet, configure_uploads, IMAGES, patch_request_class
+from flask_login import LoginManager
 
+login = LoginManager()
 db = SQLAlchemy()
 migrate = Migrate()
 photos = UploadSet("photos", IMAGES)
@@ -18,6 +20,8 @@ def generate_app():
     migrate.init_app(app, db)
     configure_uploads(app, photos)
     patch_request_class(app)
+    login.init_app(app)
+    login.login_view = "login"
 
     with app.app_context():  
         # Import routes

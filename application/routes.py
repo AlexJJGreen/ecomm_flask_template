@@ -1,7 +1,7 @@
 from flask import current_app as app
 from flask import render_template, redirect, url_for
 from application.forms import LoginForm, AddProductForm
-from flask_login import current_user, login_user, login_required
+from flask_login import current_user, login_user, login_required, login_manager
 from application.models import User
 
 ## Shop Routes ##
@@ -15,13 +15,13 @@ def index():
 
 @app.route("/products")
 def products():
-    return render_template("products.html")
+    title = "Products"
+    return render_template("products.html", title=title)
 
-
-## Admin Routes ##
 
 @app.route("/login")
 def login(methods=["GET", "POST"]):
+    form = LoginForm()
     if current_user.is_authenticated:
         return redirect(url_for("add_product"))
     if form.validate_on_submit():
@@ -29,7 +29,6 @@ def login(methods=["GET", "POST"]):
         if user is None or not user.check_password(form.password.data):
             return redirect(url_for("login"))
         login_user(user, remember=form.remember_me.data)
-    form = LoginForm()
     return render_template("login.html", form=form)
 
 @app.route("/add_product")
@@ -37,5 +36,4 @@ def login(methods=["GET", "POST"]):
 def add_product(methods=["GET", "POST"]):
     form = AddProductForm()
     title = "Add Product"
-    if 
     return render_template("add_product.html", form=form, title=title)
