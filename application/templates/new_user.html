@@ -27,8 +27,8 @@
         </p>
         <p>
             {{ form.rep_password.label }}<br>
-            {{ form.prep_assword2() }}<br>
-            {% for error in form.password2.errors %}
+            {{ form.rep_password() }}<br>
+            {% for error in form.rep_password.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>

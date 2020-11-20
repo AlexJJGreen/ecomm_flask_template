@@ -38,7 +38,14 @@ def login(methods=["GET", "POST"]):
 def add_product(methods=["GET", "POST"]):
     form = AddProductForm()
     title = "Add Product"
+    if form.validate_on_submit():
+        product = form(id = form.name, tags = form.tags, description = form.description, colour = form.colour, primary_image = form.primary_image, secondary_image = form.secondary_image,tertiary_image = form.tertiary_image.label, ean = form.ean, price = form.price, currency = form.currency, inventory = form.inventory, units_sold = form.units_sold)
+        db.session.add(product)
+        db.session.commit()
+        return redirect(url_for(""))
     return render_template("add_product.html", form=form, title=title)
+
+
 
 @app.route('/new_user', methods=['GET', 'POST'])
 def register():
@@ -46,8 +53,7 @@ def register():
         return redirect(url_for('index'))
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = User(username=form.username.data, email=form.email.data)
-        user.set_password(form.password.data)
+        user = User(username=form.username.data, email=form.email.data, password_hash=user.set_password(form.password.data))
         db.session.add(user)
         db.session.commit()
         flash('Congratulations, you are now a registered user!')
