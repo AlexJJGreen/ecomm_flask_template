@@ -44,7 +44,29 @@
                 {{ form.currency }}
             </p>
             <p>
+                {{ form.inventory.label }}<br>
+                {{ form.inventory }}
+            </p>
+            <p>
+                {{ form.units_sold.label }}<br>
+                {{ form.units_sold }}
+            </p>
+            <p>
                 {{ form.submit() }}
             </p>
     </form>
 {% endblock %}
+
+id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(128), index=True)
+    tags = db.Column(db.String(128), index=True)
+    description = db.Column(db.String(512), index=True)
+    colour = db.Column(db.String(128), index=True)
+    primary_image_loc = db.Column(db.String(128), index=True)
+    secondary_image_loc = db.Column(db.String(128), index=True)
+    tertiary_image_loc = db.Column(db.String(128), index=True)
+    ean = db.Column(db.Integer)
+    price = db.Column(db.Integer)
+    currency = db.Column(db.String(8), index=True)
+    inventory = db.Column(db.Integer)
+    units_sold = db.Column(db.Integer)

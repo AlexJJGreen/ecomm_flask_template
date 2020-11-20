@@ -1,8 +1,9 @@
 from flask import current_app as app
 from flask import render_template, redirect, url_for
-from application.forms import LoginForm, AddProductForm
+from application.forms import LoginForm, AddProductForm, RegistrationForm
 from flask_login import current_user, login_user, login_required, login_manager
 from application.models import User
+from . import db
 
 ## Shop Routes ##
 
@@ -18,7 +19,7 @@ def products():
     title = "Products"
     return render_template("products.html", title=title)
 
-##admin routes
+## admin routes ##
 
 @app.route("/login")
 def login(methods=["GET", "POST"]):
@@ -38,3 +39,17 @@ def add_product(methods=["GET", "POST"]):
     form = AddProductForm()
     title = "Add Product"
     return render_template("add_product.html", form=form, title=title)
+
+@app.route('/new_user', methods=['GET', 'POST'])
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        user = User(username=form.username.data, email=form.email.data)
+        user.set_password(form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        flash('Congratulations, you are now a registered user!')
+        return redirect(url_for('login'))
+    return render_template('new_user.html', title='Register', form=form)

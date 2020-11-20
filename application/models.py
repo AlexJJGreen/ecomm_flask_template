@@ -27,4 +27,6 @@ class Product(db.Model):
     ean = db.Column(db.Integer)
     price = db.Column(db.Integer)
     currency = db.Column(db.String(8), index=True)
+    inventory = db.Column(db.Integer)
+    units_sold = db.Column(db.Integer)
 
