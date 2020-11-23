@@ -1,0 +1,63 @@
+from flask import current_app as app
+from flask import render_template, redirect, url_for, abort
+from application.forms import LoginForm, AddProductForm, RegistrationForm
+from flask_login import current_user, login_user, login_required, login_manager
+from application.models import User
+from . import db
+from jinja2 import TemplateNotFound
+
+## admin routes ##
+
+@app.route("/")
+@app.route("/index")
+def index():
+    title = "Home"
+    return render_template("index.html", title=title)
+
+
+@app.route("/login")
+def login(methods=["GET", "POST"]):
+    form = LoginForm()
+    if current_user.is_authenticated:
+        return redirect(url_for("add_product"))
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first()
+        if user is None or not user.check_password(form.password.data):
+            return redirect(url_for("login"))
+        login_user(user, remember=form.remember_me.data)
+    return render_template("login.html", form=form)
+
+@app.route("/orders")
+def orders(methods=["GET","POST"]):
+    try:
+        return render_template("orders.html")
+    except TemplateNotFound:
+        abort(404)
+
+@app.route("/products")
+@login_required
+def add_product(methods=["GET", "POST"]):
+    form = AddProductForm()
+    title = "Products"
+    if form.validate_on_submit():
+        product = form(id = form.name, tags = form.tags, description = form.description, colour = form.colour, primary_image = form.primary_image, secondary_image = form.secondary_image,tertiary_image = form.tertiary_image.label, ean = form.ean, price = form.price, currency = form.currency, inventory = form.inventory, units_sold = form.units_sold)
+        db.session.add(product)
+        db.session.commit()
+        return redirect(url_for(""))
+    return render_template("products.html", form=form, title=title)
+
+
+
+@app.route('/new_user', methods=['GET', 'POST'])
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        new_user = User(username=form.username.data, email=form.email.data)
+        new_user.password_hash = new_user.set_password(password=User.set_password(password=form.password.data))
+        db.session.add(new_user)
+        db.session.commit()
+        flash('Congratulations, you are now a registered user!')
+        return redirect(url_for('login'))
+    return render_template('new_user.html', title='Register', form=form)
